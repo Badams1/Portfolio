@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
+import { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
- /* config options here */
+const config: NextConfig = {
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
+    
+    config.output = {
+      ...config.output,
+      webassemblyModuleFilename: 'static/wasm/[modulehash].wasm',
+    };
+    
+    return config;
+  },
 };
 
-export default nextConfig;
+export default config;
