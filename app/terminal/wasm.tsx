@@ -228,7 +228,16 @@ export function WasmTerminal({ className }: TerminalProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-500 p-4 font-mono">
+    <div className="min-h-screen bg-black text-green-500 p-4 font-mono" style={{ 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      overflow: 'hidden',
+      margin: 0,
+      padding: '1rem'
+    }}>
       <div className="max-h-[80vh] overflow-y-auto" ref={terminalRef}>
         {/* Welcome Message */}
         <div className="mb-2">
