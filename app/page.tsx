@@ -19,10 +19,25 @@ export default function Portfolio() {
               <p className="mb-2">Language-agnostic code analyzer using GPT for smart suggestions.</p>
               <div className="flex gap-2">
                 <Button variant="outline" asChild>
-	      	<a href="/codescope/" target="_blank" rel="noopener noreferrer">
-		Try It Out!
-	       	</a>
-		</Button>
+                  <a href="/codescope/" target="_blank" rel="noopener noreferrer">
+                    Try It Out!
+                  </a>
+                </Button>
+                <Button>GitHub</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="text-xl font-semibold mb-2">Terminal Clone</h3>
+              <p className="mb-2">A Unix-like terminal emulator written in C, featuring basic shell functionality.</p>
+              <div className="flex gap-2">
+                <Button variant="outline" asChild>
+                  <a href="/terminal/" target="_blank" rel="noopener noreferrer">
+                    Try It Out!
+                  </a>
+                </Button>
                 <Button>GitHub</Button>
               </div>
             </CardContent>
