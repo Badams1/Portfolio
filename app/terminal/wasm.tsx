@@ -13,7 +13,7 @@ interface TerminalProps {
   className?: string;
 }
 
-const WELCOME_MESSAGE = `\x1b[32mWelcome to the Terminal Clone!
+const WELCOME_MESSAGE = `\x1b[32mWelcome to MiniShell!
 
 This is a web-based terminal emulator that simulates basic Unix commands.
 Try these commands:

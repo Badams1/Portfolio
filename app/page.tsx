@@ -30,7 +30,7 @@ export default function Portfolio() {
 
           <Card>
             <CardContent className="p-4">
-              <h3 className="text-xl font-semibold mb-2">Terminal Clone</h3>
+              <h3 className="text-xl font-semibold mb-2">MiniShell</h3>
               <p className="mb-2">A Unix-like terminal emulator written in C, featuring basic shell functionality.</p>
               <div className="flex gap-2">
                 <Button variant="outline" asChild>
