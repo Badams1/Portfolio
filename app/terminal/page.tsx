@@ -79,8 +79,8 @@ const TerminalPage = () => {
                 <span className="text-blue-500">guest@terminal</span>
                 <span className="text-white">:</span>
                 <span className="text-purple-500">{currentPath}</span>
-                <span className="text-white">$ </span>
-                <span>{cmd.input}</span>
+                <span className="text-white">$</span>
+                <span className="ml-1">{cmd.input}</span>
               </div>
             )}
             <div className="whitespace-pre-wrap">{cmd.output}</div>
@@ -90,14 +90,14 @@ const TerminalPage = () => {
           <span className="text-blue-500">guest@terminal</span>
           <span className="text-white">:</span>
           <span className="text-purple-500">{currentPath}</span>
-          <span className="text-white">$ </span>
+          <span className="text-white">$</span>
           <input
             ref={inputRef}
             type="text"
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleCommand}
-            className="flex-1 bg-transparent outline-none border-none"
+            className="flex-1 bg-transparent outline-none border-none ml-1"
             autoFocus
           />
         </div>

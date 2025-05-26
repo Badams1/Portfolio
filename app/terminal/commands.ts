@@ -12,7 +12,7 @@ const fileSystem: FileSystem = {
     children: {
       'readme.txt': {
         type: 'file',
-        content: 'Welcome to the Terminal Clone!\n\nThis is a web-based terminal emulator that simulates basic Unix commands.\nTry these commands:\n- ls: List directory contents\n- pwd: Print working directory\n- cd: Change directory\n- cat: Read file contents\n- clear: Clear the terminal\n- help: Show this help message'
+        content: 'Welcome to the Terminal Clone!\n\nThis is a web-based terminal emulator that simulates basic Unix commands.\nTry these commands:\n- ls: List directory contents\n- pwd: Print working directory\n- cd: Change directory\n- cat: Read file contents\n- touch: Create a new file\n- mkdir: Create a new directory\n- clear: Clear the terminal\n- help: Show this help message'
       },
       'projects': {
         type: 'directory',
@@ -129,6 +129,74 @@ export class TerminalState {
     };
   }
 
+  touch(filename: string): CommandResult {
+    if (!filename) {
+      return {
+        success: false,
+        output: 'touch: missing file operand'
+      };
+    }
+
+    const currentDir = this.getCurrentDirectory();
+    if (!currentDir) {
+      return {
+        success: false,
+        output: 'touch: cannot create file: Directory not found'
+      };
+    }
+
+    if (currentDir[filename]) {
+      return {
+        success: false,
+        output: `touch: cannot create file '${filename}': File exists`
+      };
+    }
+
+    currentDir[filename] = {
+      type: 'file',
+      content: ''
+    };
+
+    return {
+      success: true,
+      output: ''
+    };
+  }
+
+  mkdir(dirname: string): CommandResult {
+    if (!dirname) {
+      return {
+        success: false,
+        output: 'mkdir: missing directory operand'
+      };
+    }
+
+    const currentDir = this.getCurrentDirectory();
+    if (!currentDir) {
+      return {
+        success: false,
+        output: 'mkdir: cannot create directory: Path not found'
+      };
+    }
+
+    if (currentDir[dirname]) {
+      return {
+        success: false,
+        output: `mkdir: cannot create directory '${dirname}': File exists`
+      };
+    }
+
+    currentDir[dirname] = {
+      type: 'directory',
+      children: {}
+    };
+
+    return {
+      success: true,
+      output: ''
+    };
+  }
+
   clear(): CommandResult {
     return {
       success: true,
@@ -144,6 +212,8 @@ export class TerminalState {
         '  pwd             Print working directory\n' +
         '  cd <dir>       Change directory\n' +
         '  cat <file>     Display file contents\n' +
+        '  touch <file>   Create a new empty file\n' +
+        '  mkdir <dir>    Create a new directory\n' +
         '  clear          Clear the terminal\n' +
         '  help           Show this help message'
     };
@@ -169,6 +239,10 @@ export class TerminalState {
           };
         }
         return this.cat(args[0]);
+      case 'touch':
+        return this.touch(args[0]);
+      case 'mkdir':
+        return this.mkdir(args[0]);
       case 'clear':
         return this.clear();
       case 'help':
