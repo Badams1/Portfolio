@@ -16,7 +16,7 @@ export default function Portfolio() {
           <Card>
             <CardContent className="p-4">
               <h3 className="text-xl font-semibold mb-2">CodeScope</h3>
-              <p className="mb-2">Language-agnostic code analyzer using GPT for smart suggestions.</p>
+              <p className="mb-2">Security-focused code analyzer using GPT for smart suggestions.</p>
               <div className="flex gap-2">
                 <Button variant="outline" asChild>
                   <a href="/codescope/" target="_blank" rel="noopener noreferrer">
@@ -31,7 +31,7 @@ export default function Portfolio() {
           <Card>
             <CardContent className="p-4">
               <h3 className="text-xl font-semibold mb-2">MiniShell</h3>
-              <p className="mb-2">A Unix-like terminal emulator written in C, featuring basic shell functionality.</p>
+              <p className="mb-2">A Linux-like command line interface written in C.</p>
               <div className="flex gap-2">
                 <Button variant="outline" asChild>
                   <a href="/terminal/" target="_blank" rel="noopener noreferrer">
@@ -46,9 +46,9 @@ export default function Portfolio() {
       </section>
 
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4">About Me</h2>
         <p className="max-w-2xl mx-auto text-center">
-          I'm a Northeastern CS student with a apssion for Software Development, AI, and building tools that make other developers more productive. I'm currently looking for a Fall 2025 internship.
+        <h2 className="text-3xl font-bold mb-4">About Me</h2>
+          I'm a Northeastern CS student with a passion for Software Development, AI, and building useful tools. I'm currently looking for a Fall 2025 internship.
         </p>
       </section>
 
