@@ -2,12 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tailwindcss";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -45,9 +40,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-}
-
-:root {
   --font-geist-sans: '__GeistSans_5cfdac';
   --font-geist-mono: '__GeistMono_9a8899';
   --radius: .625rem;
@@ -156,7 +148,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;

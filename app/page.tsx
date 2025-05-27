@@ -46,8 +46,8 @@ export default function Portfolio() {
       </section>
 
       <section className="mb-16">
+        <h2 className="text-3xl font-bold mb-4 text-center">About Me</h2>
         <p className="max-w-2xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-4">About Me</h2>
           I'm a Northeastern CS student with a passion for Software Development, AI, and building useful tools. I'm currently looking for a Fall 2025 internship.
         </p>
       </section>
