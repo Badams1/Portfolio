@@ -23,7 +23,11 @@ export default function Portfolio() {
                     Try It Out!
                   </a>
                 </Button>
-                <Button>GitHub</Button>
+                <Button asChild>
+                  <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -38,7 +42,11 @@ export default function Portfolio() {
                     Try It Out!
                   </a>
                 </Button>
-                <Button>GitHub</Button>
+                <Button asChild>
+                  <a href="https://github.com/Badams1/MiniShell" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </Button>
               </div>
             </CardContent>
           </Card>
