@@ -4,65 +4,174 @@ import { Button } from "@/components/ui/button";
 
 export default function Portfolio() {
   return (
-    <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8">
-      <section className="text-center mb-16">
-        <h1 className="text-5xl font-bold mb-4">Ben Adams</h1>
-        <p className="text-xl">Software Developer • CS Student</p>
-      </section>
-
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-6">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardContent className="p-4">
-              <h3 className="text-xl font-semibold mb-2">CodeScope</h3>
-              <p className="mb-2">Security-focused code analyzer using GPT for smart suggestions.</p>
-              <div className="flex gap-2">
-                <Button variant="outline" asChild>
-                  <a href="/codescope/" target="_blank" rel="noopener noreferrer">
-                    Try It Out!
-                  </a>
-                </Button>
-                <Button asChild>
-                  <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer">
-                    GitHub
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-4">
-              <h3 className="text-xl font-semibold mb-2">MiniShell</h3>
-              <p className="mb-2">A Linux-like command line interface written in C.</p>
-              <div className="flex gap-2">
-                <Button variant="outline" asChild>
-                  <a href="/terminal/" target="_blank" rel="noopener noreferrer">
-                    Try It Out!
-                  </a>
-                </Button>
-                <Button asChild>
-                  <a href="https://github.com/Badams1/MiniShell" target="_blank" rel="noopener noreferrer">
-                    GitHub
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20 pb-16 px-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 dark:from-blue-400/5 dark:to-purple-400/5"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
+          <div className="inline-block animate-pulse mb-6">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+              BA
+            </div>
+          </div>
+          <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
+            Ben Adams
+          </h1>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-xl text-gray-600 dark:text-gray-300">
+            <span className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm">
+              Software Developer
+            </span>
+            <span className="hidden sm:block text-gray-400">•</span>
+            <span className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm">
+              CS Student
+            </span>
+          </div>
         </div>
       </section>
 
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-center">About Me</h2>
-        <p className="max-w-2xl mx-auto text-center">
-          I'm a Northeastern CS student with a passion for Software Development, AI, and building useful tools. I'm currently looking for a Fall 2025 internship.
-        </p>
+      {/* Projects Section */}
+      <section className="py-16 px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Featured Projects
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* CodeScope Card */}
+            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-400/5 dark:to-teal-400/5"></div>
+              <CardContent className="relative p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
+                      🛡️
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">CodeScope</h3>
+                      <p className="text-emerald-600 dark:text-emerald-400 font-medium">Security Analysis Tool</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  An intelligent security-focused code analyzer that leverages GPT to provide smart suggestions 
+                  and identify potential vulnerabilities in your codebase.
+                </p>
+                
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Python Backend', 'React Frontend', 'OpenAI GPT', 'Static Analysis'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button variant="outline" asChild className="flex-1 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-900/20">
+                    <a href="/codescope/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      Try Live Demo
+                    </a>
+                  </Button>
+                  <Button asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
+                    <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* MiniShell Card */}
+            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 dark:from-blue-400/5 dark:to-indigo-400/5"></div>
+              <CardContent className="relative p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
+                      💻
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">MiniShell</h3>
+                      <p className="text-blue-600 dark:text-blue-400 font-medium">Unix Terminal Emulator</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  A fully functional Linux-like command line interface written in C, compiled to WebAssembly 
+                  for seamless browser integration.
+                </p>
+                
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['C Programming', 'WebAssembly', 'Next.js', 'Unix Systems'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button variant="outline" asChild className="flex-1 border-blue-200 hover:bg-blue-50 dark:border-blue-800 dark:hover:bg-blue-900/20">
+                    <a href="/terminal/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      Try Terminal
+                    </a>
+                  </Button>
+                  <Button asChild className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
+                    <a href="https://github.com/Badams1/MiniShell" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </section>
 
-      <section className="text-center">
-        <h2 className="text-2xl font-bold mb-2">Contact</h2>
-        <p>Email me at <a href="mailto:badams@northeastern.edu" className="underline">adams.be@northeastern.edu</a></p>
+      {/* About Section */}
+      <section className="py-16 px-8 bg-white/50 dark:bg-gray-800/30 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">About Me</h2>
+          <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
+            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+              I'm a passionate <span className="font-semibold text-blue-600 dark:text-blue-400">Northeastern CS student</span> with 
+              a deep interest in <span className="font-semibold text-purple-600 dark:text-purple-400">Software Development</span>, 
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400"> AI</span>, and building tools that make a difference.
+            </p>
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium shadow-lg">
+              Currently seeking Fall 2025 internship opportunities
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 px-8">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Let's Connect</h2>
+          <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+              Ready to discuss opportunities or collaborate on exciting projects?
+            </p>
+            <Button asChild className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-lg px-8 py-3">
+              <a href="mailto:adams.be@northeastern.edu" className="flex items-center gap-2">
+                adams.be@northeastern.edu
+              </a>
+            </Button>
+          </div>
+        </div>
       </section>
     </main>
   );
