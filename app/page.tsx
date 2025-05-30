@@ -38,56 +38,7 @@ export default function Portfolio() {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* CodeScope Card */}
-            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-400/5 dark:to-teal-400/5"></div>
-              <CardContent className="relative p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
-                      🛡️
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">CodeScope</h3>
-                      <p className="text-emerald-600 dark:text-emerald-400 font-medium">Security Analysis Tool</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  An intelligent security-focused code analyzer that leverages GPT to provide smart suggestions 
-                  and identify potential vulnerabilities in your codebase.
-                </p>
-                
-                <div className="mb-8">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Python Backend', 'React Frontend', 'OpenAI GPT', 'Static Analysis'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex gap-3">
-                  <Button variant="outline" asChild className="flex-1 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-900/20">
-                    <a href="/codescope/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                      Try Live Demo
-                    </a>
-                  </Button>
-                  <Button asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
-                    <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                      GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {/* MiniShell Card */}
             <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 dark:from-blue-400/5 dark:to-indigo-400/5"></div>
@@ -105,7 +56,7 @@ export default function Portfolio() {
                 </div>
                 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  A fully functional Linux-like command line interface written in C, compiled to WebAssembly 
+                  A Linux-like command line interface written in C, compiled to WebAssembly 
                   for seamless browser integration.
                 </p>
                 
@@ -130,6 +81,106 @@ export default function Portfolio() {
                   </Button>
                   <Button asChild className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
                     <a href="https://github.com/Badams1/MiniShell" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* LeetGenie Card */}
+            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 dark:from-orange-400/5 dark:to-amber-400/5"></div>
+              <CardContent className="relative p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
+                      💡
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">LeetGenie</h3>
+                      <p className="text-orange-600 dark:text-orange-400 font-medium">Chrome Extension</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  A Chrome extension that provides AI-powered hints for LeetCode problems without spoiling 
+                  the solution.
+                </p>
+                
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['JavaScript', 'Chrome APIs', 'OpenAI GPT', 'Content Scripts'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button variant="outline" asChild className="flex-1 border-orange-200 hover:bg-orange-50 dark:border-orange-800 dark:hover:bg-orange-900/20">
+                    {/* TODO: Replace with actual Chrome Web Store URL once published */}
+                    {/* Format: https://chrome.google.com/webstore/detail/leetgenie/[EXTENSION_ID] */}
+                    <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      Chrome Store
+                    </a>
+                  </Button>
+                  <Button asChild className="flex-1 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700">
+                    <a href="https://github.com/Badams1/LeetGenie" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* CodeScope Card */}
+            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-400/5 dark:to-teal-400/5"></div>
+              <CardContent className="relative p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
+                      🛡️
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">CodeScope</h3>
+                      <p className="text-emerald-600 dark:text-emerald-400 font-medium">Security Analysis Tool</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  A security-focused code analyzer that uses GPT to provide smart suggestions 
+                  and identify potential vulnerabilities in your code.
+                </p>
+                
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Python Backend', 'React Frontend', 'OpenAI GPT', 'Static Analysis'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button variant="outline" asChild className="flex-1 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-900/20">
+                    <a href="/codescope/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      Try Live Demo
+                    </a>
+                  </Button>
+                  <Button asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
+                    <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                       GitHub
                     </a>
                   </Button>
