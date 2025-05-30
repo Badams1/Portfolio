@@ -11,11 +11,10 @@ export default function Portfolio() {
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-block animate-pulse mb-6">
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              BA
             </div>
           </div>
           <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
-            Ben Adams
+            Benjamin Adams
           </h1>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-xl text-gray-600 dark:text-gray-300">
             <span className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm">

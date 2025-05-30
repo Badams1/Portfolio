@@ -5,7 +5,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ben Adams - Portfolio",
+  title: "Benjamin Adams - Portfolio",
   description: "Software Developer & CS Student - Portfolio featuring MiniShell and other projects",
 };
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${GeistSans.variable} ${GeistMono.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <ThemeToggle />
           {children}
         </ThemeProvider>
