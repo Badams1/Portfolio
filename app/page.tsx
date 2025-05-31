@@ -9,7 +9,7 @@ export default function Portfolio() {
       <div className="absolute top-8 left-8 z-50">
         <div className="flex flex-col sm:flex-row gap-4">
           <a 
-            href="/resume.pdf" 
+            href="/Resume.pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
