@@ -141,8 +141,8 @@ export default function Portfolio() {
                 </div>
                 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  A Chrome extension that provides AI-powered hints for LeetCode problems without spoiling 
-                  the solution.
+                  A published Chrome extension that provides AI-powered hints for LeetCode problems without spoiling 
+                  the solution. Available on the Chrome Web Store.
                 </p>
                 
                 <div className="mb-8">
@@ -160,9 +160,7 @@ export default function Portfolio() {
                 
                 <div className="flex gap-3">
                   <Button variant="outline" asChild className="flex-1 border-orange-200 hover:bg-orange-50 dark:border-orange-800 dark:hover:bg-orange-900/20">
-                    {/* TODO: Replace with actual Chrome Web Store URL once published */}
-                    {/* Format: https://chrome.google.com/webstore/detail/leetgenie/[EXTENSION_ID] */}
-                    <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                    <a href="https://chromewebstore.google.com/detail/eodogpbkkimfpclkdjlglkjjdfepjnpl?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                       Chrome Store
                     </a>
                   </Button>
