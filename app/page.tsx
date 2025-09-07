@@ -9,7 +9,7 @@ export default function Portfolio() {
       <div className="absolute top-8 left-8 z-50">
         <div className="flex flex-col sm:flex-row gap-4">
           <a 
-            href="/Resume.pdf" 
+            href="/BenjaminAdamsResume.pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
@@ -162,16 +162,16 @@ export default function Portfolio() {
                   <Button variant="outline" asChild className="flex-1 border-orange-200 hover:bg-orange-50 dark:border-orange-800 dark:hover:bg-orange-900/20">
                     <a href="https://chromewebstore.google.com/detail/eodogpbkkimfpclkdjlglkjjdfepjnpl?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                       Chrome Store
-                    </a>
-                  </Button>
+                  </a>
+                </Button>
                   <Button asChild className="flex-1 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700">
                     <a href="https://github.com/Badams1/LeetGenie" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                      GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                    GitHub
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
             {/* CodeScope Card */}
             <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -211,16 +211,16 @@ export default function Portfolio() {
                   <Button variant="outline" asChild className="flex-1 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-900/20">
                     <a href="/codescope/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                       Try Live Demo
-                    </a>
-                  </Button>
+                  </a>
+                </Button>
                   <Button asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
                     <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                      GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                    GitHub
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
           </div>
         </div>
       </section>
@@ -232,7 +232,7 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">About Me</h2>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Personal Introduction - Left Side */}
             <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Background</h3>
@@ -242,10 +242,68 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Work Experience - Right Side */}
+            {/* Work Experience Title - Right Side */}
             <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Work Experience</h3>
+              <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                Software engineering internships focused on building scalable systems, implementing modern development practices, and delivering impactful solutions.
+              </p>
+            </div>
+          </div>
+
+          {/* Work Experience Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* ATPCO Internship Card */}
+            <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
+                <div className="mb-4 sm:mb-0">
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">Software Engineering Intern</h4>
+                  <p className="text-lg font-semibold text-orange-600 dark:text-orange-400">ATPCO</p>
+                </div>
+                <div className="text-lg font-medium text-gray-600 dark:text-gray-300">
+                  Jun – Aug 2025
+                </div>
+              </div>
               
+              <div className="space-y-4">
+                {/* Feature Flag Provider */}
+                <div className="border-l-4 border-orange-500 pl-4">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Custom Feature Flag Provider
+                  </h5>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                    Designed and implemented a custom feature flag provider enabling dynamic flag evaluation from YAML files stored in AWS S3
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Java', 'Spring Boot', 'AWS SDK', 'YAML', 'OpenFeature', 'LocalStack'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Testing & Observability */}
+                <div className="border-l-4 border-green-500 pl-4">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Testing & Observability Implementation
+                  </h5>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                    Achieved comprehensive unit test and integration coverage, implemented logging capabilities using OpenTelemetry API
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {['JUnit 5', 'Mockito', 'JaCoCo', 'OpenTelemetry'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Snipp Interactive Internship Card */}
+            <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
                 <div className="mb-4 sm:mb-0">
                   <h4 className="text-xl font-bold text-gray-900 dark:text-white">Software Engineering Intern</h4>
@@ -305,7 +363,7 @@ export default function Portfolio() {
           {/* Internship Status - Below both columns */}
           <div className="text-center mt-8">
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium shadow-lg">
-              Currently seeking Fall 2025 internship opportunities
+              Currently seeking Spring 2026 post-grad positions
             </div>
           </div>
         </div>
