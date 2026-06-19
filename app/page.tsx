@@ -172,55 +172,6 @@ export default function Portfolio() {
               </div>
             </CardContent>
           </Card>
-
-            {/* CodeScope Card */}
-            <Card className="group relative overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-400/5 dark:to-teal-400/5"></div>
-              <CardContent className="relative p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
-                      🛡️
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">CodeScope</h3>
-                      <p className="text-emerald-600 dark:text-emerald-400 font-medium">Security Analysis Tool</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  A security-focused code analyzer that uses GPT to provide smart suggestions 
-                  and identify potential vulnerabilities in your code.
-                </p>
-                
-                <div className="mb-8">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Python Backend', 'React Frontend', 'OpenAI GPT', 'Static Analysis'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex gap-3">
-                  <Button variant="outline" asChild className="flex-1 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-900/20">
-                    <a href="/codescope/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                      Try Live Demo
-                  </a>
-                </Button>
-                  <Button asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
-                    <a href="https://github.com/Badams1/CodeScope" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                    GitHub
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
           </div>
         </div>
       </section>
@@ -246,8 +197,92 @@ export default function Portfolio() {
             <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Work Experience</h3>
               <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                Software engineering internships focused on building scalable systems, implementing modern development practices, and delivering impactful solutions.
+                Contract and internship roles focused on building data pipelines, applied-AI tooling, and scalable backend systems.
               </p>
+            </div>
+          </div>
+
+          {/* PlusWellbeing Featured Card */}
+          <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
+              <div className="mb-4 sm:mb-0">
+                <h4 className="text-xl font-bold text-gray-900 dark:text-white">Software Engineer (Contract)</h4>
+                <p className="text-lg font-semibold text-purple-600 dark:text-purple-400">PlusWellbeing.ai</p>
+              </div>
+              <div className="sm:text-right">
+                <div className="text-lg font-medium text-gray-600 dark:text-gray-300">Nov 2025 – Present</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Remote</div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {/* AI Meal-Analysis Pipeline */}
+              <div className="border-l-4 border-purple-500 pl-4">
+                <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  AI Meal-Analysis Pipeline
+                </h5>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                  Built a pipeline that turns a meal photo or text into structured nutrition data: multimodal Amazon Bedrock (Claude Sonnet 4.5) identifies the ingredients, NutritionIX fills in the macros, a scoring step rates each meal for allergen safety and plan fit, and the result is saved as a FHIR food log, with JSON-schema-constrained output streamed to clients over SSE.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['TypeScript', 'AWS Lambda', 'Amazon Bedrock', 'Claude', 'NutritionIX', 'FHIR / Medplum', 'SSE'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* PostgreSQL Query Optimization */}
+              <div className="border-l-4 border-cyan-500 pl-4">
+                <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  PostgreSQL Query Optimization
+                </h5>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                  Tracked down an N+1 query problem on a core endpoint (about 75 per-session queries, roughly 98s of database time) and rewrote it with set-based PostgreSQL (DISTINCT ON, batched GROUP BY counts) plus selective KMS decryption, dropping latency from about 9s to 0.25s.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['PostgreSQL', 'TypeScript', 'AWS KMS'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Patient Identifier (MRN) System */}
+              <div className="border-l-4 border-rose-500 pl-4">
+                <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  Patient Identifier (MRN) System
+                </h5>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                  Designed a UUID-based medical record number scheme with an idempotent batch backfill for existing patients and an event-driven service that assigns an ID on patient creation, handling collisions under concurrency.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['TypeScript', 'Medplum / FHIR', 'AWS Lambda'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Agentic Shopping Workflow */}
+              <div className="border-l-4 border-amber-500 pl-4">
+                <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  Agentic Shopping Workflow
+                </h5>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                  Built an agentic workflow with n8n and Amazon Bedrock that normalizes free-text recipe ingredients and maps them to retailer carts through a modular Walmart and Instacart adapter layer. Also set up an org-wide GitHub to Monday.com data sync and a reusable smoke-test framework for release QA across 4 apps.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['n8n', 'Amazon Bedrock', 'AWS', 'GitHub Actions'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
