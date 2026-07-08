@@ -29,6 +29,11 @@
   --border: #e3dccc;
   --input: #e3dccc;
   --ring: #1e5a44;
+
+  /* atmosphere — paper under lamplight */
+  --pool: rgba(233, 213, 170, 0.5);     /* ochre wash pooling at the top */
+  --pool-2: rgba(30, 90, 68, 0.06);     /* faint moss breath, lower left */
+  --vignette: rgba(92, 71, 39, 0.055);  /* warm darkening at the edges */
 }
 
 .dark {
@@ -51,6 +56,11 @@
   --border: #2b2822;
   --input: #2b2822;
   --ring: #83c2a4;
+
+  /* atmosphere — candlelit study */
+  --pool: rgba(198, 138, 62, 0.13);     /* soft pool of lamplight over the hero */
+  --pool-2: rgba(131, 194, 164, 0.05);  /* cool moss counter-glow */
+  --vignette: rgba(0, 0, 0, 0.42);
 }
 
 /* Motion vocabulary — one easing family for the whole site. */
@@ -68,6 +78,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    position: relative;
+    z-index: 0;
   }
   ::selection {
     background: var(--primary);
@@ -471,4 +483,22 @@ a:hover .arrow-ext {
     opacity: 1;
     box-shadow: none;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Atmosphere: paper under lamplight — three fixed radial washes behind
+   everything. Light: ochre pool from the top, moss breath lower-left, warm
+   vignette. Dark: candlelit study.
+--------------------------------------------------------------------------- */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(110% 75% at 68% -12%, var(--pool), transparent 62%),
+    radial-gradient(85% 65% at 4% 78%, var(--pool-2), transparent 58%),
+    radial-gradient(135% 135% at 50% 42%, transparent 58%, var(--vignette) 100%);
 }
