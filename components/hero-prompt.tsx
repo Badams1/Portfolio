@@ -157,8 +157,8 @@ export function HeroPrompt() {
         <button
           type="button"
           onClick={() => setActive(true)}
-          className="-mx-3 -my-1.5 flex cursor-text items-center rounded-md border border-transparent px-3 py-1.5 font-mono text-sm transition-colors hover:border-border hover:bg-card/70"
-          aria-label="Activate the site terminal"
+          className="flex w-full max-w-md cursor-text items-center rounded-md border border-border bg-card/70 px-3 py-2 font-mono text-sm transition-colors hover:border-primary/60"
+          aria-label="Activate the site terminal — click to type"
         >
           <span className="text-primary">$&nbsp;</span>
           <span className="text-muted-foreground">{ghost}</span>
@@ -166,10 +166,13 @@ export function HeroPrompt() {
             className={booted ? 'cursor-blink' : 'cursor-blink cursor-boot'}
             aria-hidden="true"
           />
+          <span className="ml-auto pl-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground/70">
+            click to type
+          </span>
         </button>
       ) : (
         <div
-          className="flex cursor-text items-center font-mono text-sm"
+          className="flex w-full max-w-md cursor-text items-center rounded-md border border-primary/60 bg-card/70 px-3 py-2 font-mono text-sm"
           onClick={() => inputRef.current?.focus()}
         >
           <span className="select-none text-primary">$&nbsp;</span>
@@ -189,8 +192,8 @@ export function HeroPrompt() {
           />
         </div>
       )}
-      <p className="mt-1.5 font-mono text-[11px] text-muted-foreground/80">
-        a real prompt — click it and type, or pick a command:
+      <p className="mt-2 font-mono text-[11px] text-muted-foreground/80">
+        a real shell, running in your browser — or pick a command:
       </p>
 
       {/* Command chips — always visible so nobody mistakes this for decoration */}
