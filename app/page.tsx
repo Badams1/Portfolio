@@ -206,7 +206,7 @@ export default function Portfolio() {
           <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 shadow-xl backdrop-blur-sm mb-8">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
               <div className="mb-4 sm:mb-0">
-                <h4 className="text-xl font-bold text-gray-900 dark:text-white">Software Engineer (Contract)</h4>
+                <h4 className="text-xl font-bold text-gray-900 dark:text-white">Software Engineer</h4>
                 <p className="text-lg font-semibold text-purple-600 dark:text-purple-400">PlusWellbeing.ai</p>
               </div>
               <div className="sm:text-right">
