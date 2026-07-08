@@ -132,11 +132,11 @@ const projects = [
 
 function SectionHeading({ index, label }: { index: string; label: string }) {
   return (
-    <h2 className="mb-10 flex items-center gap-4" data-reveal>
-      <span className="font-mono text-[11px] font-medium tracking-[0.22em] text-primary/60">
+    <h2 className="mb-8 flex items-center gap-4" data-reveal>
+      <span className="font-mono text-[13px] font-medium tracking-[0.2em] text-primary/60">
         {index}
       </span>
-      <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+      <span className="font-mono text-[13px] font-medium uppercase tracking-[0.2em] text-primary">
         {label}
       </span>
       <span className="rule h-px flex-1 bg-border" aria-hidden="true" />
@@ -232,7 +232,7 @@ export default function Portfolio() {
 
       {/* Header ------------------------------------------------------------ */}
       <header className="site-header sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-[46rem] items-center justify-between px-6 lg:max-w-[58rem]">
+        <div className="mx-auto flex h-14 max-w-[46rem] items-center justify-between px-6 lg:max-w-[68rem]">
           <a href="#top" className="font-display text-[15px] italic tracking-tight">
             Benjamin Adams
           </a>
@@ -256,9 +256,9 @@ export default function Portfolio() {
         </div>
       </header>
 
-      <main id="top" className="mx-auto max-w-[46rem] px-6 lg:max-w-[58rem]">
+      <main id="top" className="mx-auto max-w-[46rem] px-6 lg:max-w-[68rem]">
         {/* Hero -------------------------------------------------------------- */}
-        <section className="pb-20 pt-16 sm:pb-24 sm:pt-24 lg:max-w-[46rem]">
+        <section className="pb-16 pt-16 sm:pb-20 sm:pt-24">
           <h1 className="font-display text-[clamp(3.2rem,9vw,5.75rem)] leading-[0.98] tracking-tight [text-wrap:balance]">
             <span className="mask-word">
               <span style={{ "--d": "0ms" } as React.CSSProperties}>Benjamin</span>
@@ -268,7 +268,7 @@ export default function Portfolio() {
             </em>
           </h1>
           <p
-            className="reveal mt-7 max-w-[34rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
+            className="reveal mt-7 max-w-[40rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
             style={{ animationDelay: "220ms" }}
           >
             Software engineer at PlusWellbeing.ai, turning LLM output into
@@ -300,7 +300,7 @@ export default function Portfolio() {
         </section>
 
         {/* Experience --------------------------------------------------------- */}
-        <section id="work" className="scroll-mt-20 pb-20">
+        <section id="work" className="scroll-mt-20 pb-16">
           <SectionHeading index="01" label="Experience" />
 
           {/* Featured: PlusWellbeing */}
@@ -337,7 +337,7 @@ export default function Portfolio() {
                         </span>
                       )}
                     </div>
-                    <p className="mt-2 max-w-[40rem] text-[15px] leading-relaxed text-muted-foreground [text-wrap:pretty]">
+                    <p className="mt-2 max-w-[46rem] text-[15px] leading-relaxed text-muted-foreground [text-wrap:pretty]">
                       {item.description}
                     </p>
                     <StackLine stack={item.stack} />
@@ -382,7 +382,7 @@ export default function Portfolio() {
                       <DateStamp dates={role.dates} location={role.location} align="right" />
                     </div>
                   </div>
-                  <p className="mt-4 max-w-[40rem] text-[15px] leading-relaxed text-muted-foreground [text-wrap:pretty]">
+                  <p className="mt-4 max-w-[46rem] text-[15px] leading-relaxed text-muted-foreground [text-wrap:pretty]">
                     {role.summary}
                   </p>
                   <StackLine stack={role.stack} />
@@ -393,7 +393,7 @@ export default function Portfolio() {
         </section>
 
         {/* Projects ----------------------------------------------------------- */}
-        <section id="projects" className="scroll-mt-20 pb-20">
+        <section id="projects" className="scroll-mt-20 pb-16">
           <SectionHeading index="02" label="Projects" />
           <div className="grid gap-5 sm:grid-cols-2" data-reveal-stagger>
             {projects.map((project) => (
@@ -451,9 +451,9 @@ export default function Portfolio() {
         </section>
 
         {/* About --------------------------------------------------------------- */}
-        <section id="about" className="scroll-mt-20 pb-20 lg:max-w-[46rem]">
+        <section id="about" className="scroll-mt-20 pb-16">
           <SectionHeading index="03" label="About" />
-          <p className="max-w-[38rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
+          <p className="max-w-[44rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
             I like systems that are fast, typed, and observable — and the
             unglamorous work that makes AI features trustworthy:
             schema-constrained outputs, idempotent backfills, queries that
@@ -462,7 +462,7 @@ export default function Portfolio() {
         </section>
 
         {/* Contact ------------------------------------------------------------- */}
-        <section id="contact" className="scroll-mt-20 pb-20 lg:max-w-[46rem]">
+        <section id="contact" className="scroll-mt-20 pb-16">
           <SectionHeading index="04" label="Contact" />
           <div data-reveal-stagger>
             <p className="font-display text-4xl tracking-tight sm:text-5xl">
@@ -495,7 +495,7 @@ export default function Portfolio() {
       </main>
 
       {/* Footer -------------------------------------------------------------- */}
-      <footer className="mx-auto max-w-[46rem] px-6 lg:max-w-[58rem]">
+      <footer className="mx-auto max-w-[46rem] px-6 lg:max-w-[68rem]">
         <div
           className="flex flex-col gap-2 border-t border-border py-8 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between"
           data-reveal
