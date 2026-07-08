@@ -278,8 +278,12 @@ export default function Portfolio() {
 
           {/* Featured: PlusWellbeing */}
           <article className="lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
-            <div className="hidden lg:block lg:pt-2">
+            <div className="relative hidden lg:block lg:border-r lg:border-border lg:pr-6 lg:pt-2">
               <DateStamp dates={featuredRole.dates} location={featuredRole.location} />
+              <span
+                aria-hidden="true"
+                className="absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
+              />
             </div>
             <div>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
@@ -327,8 +331,12 @@ export default function Portfolio() {
           <div className="space-y-12">
             {earlierRoles.map((role) => (
               <article key={role.company} className="lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
-                <div className="hidden lg:block lg:pt-2">
+                <div className="relative hidden lg:block lg:border-r lg:border-border lg:pr-6 lg:pt-2">
                   <DateStamp dates={role.dates} location={role.location} />
+                  <span
+                    aria-hidden="true"
+                    className="absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
+                  />
                 </div>
                 <div>
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
