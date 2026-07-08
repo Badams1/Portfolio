@@ -1,0 +1,42 @@
+
+  [32mBENJAMIN D. ADAMS[0m — software engineer
+  ──────────────────────────────────────────────────────────────
+  bdadams.dev · bdadams083104@gmail.com · Boston, MA
+  github.com/Badams1 · linkedin.com/in/benjamin-adams-444651292
+
+  [32mEXPERIENCE[0m
+  ──────────────────────────────────────────────────────────────
+  [1mPlusWellbeing.ai[0m — Software Engineer          Nov 2025 — now
+  · AI meal-analysis pipeline: photo/text → Claude Sonnet 4.5
+    (Bedrock) → Nutritionix macros → allergen/plan scoring →
+    FHIR food log. Schema-constrained JSON, streamed over SSE.
+  · Killed an N+1: ~75 queries/session, ~98s cumulative DB time
+    → set-based SQL + selective KMS decryption. [32m9s → 0.25s[0m
+  · UUID medical-record-number system: idempotent backfill +
+    event-driven assignment, collision-safe under concurrency.
+  · Agentic shopping workflow (n8n + Bedrock): free-text recipe
+    ingredients → Walmart/Instacart carts via modular adapters.
+
+  [1mATPCO[0m — SWE Intern                            Jun — Aug 2025
+  · Custom OpenFeature provider: YAML flags in S3, in-memory
+    store, graceful fallback. JUnit/Mockito + OpenTelemetry.
+
+  [1mSnipp Interactive[0m — SWE Intern                Jan — Jun 2024
+  · Node.js CSV ingestion w/ OpenAI schema workflows; LibPostal
+    address normalization for fraud signals; Vue 3 S3 asset UI.
+
+  [32mPROJECTS[0m
+  ──────────────────────────────────────────────────────────────
+  [1mMiniShell[0m   Unix shell in C → WebAssembly. Runs in your
+              browser: [4mhttps://bdadams.dev/terminal[0m
+  [1mLeetGenie[0m   Chrome extension: LeetCode hints that don't
+              spoil. Live on the Chrome Web Store.
+
+  [32mEDUCATION[0m
+  ──────────────────────────────────────────────────────────────
+  Northeastern University — B.S. Computer Science, April 2026
+
+  [2mPDF: https://bdadams.dev/BenjaminAdamsResume.pdf[0m
+  [2mYes, this works in curl on purpose. The site has a live
+  shell too — I wrote it in C.[0m
+

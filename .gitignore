@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# personal working notes - never publish
+INTERVIEW_PREP_GUIDE.*
+TECHNICAL_PROJECT_GUIDE.md
+style.css

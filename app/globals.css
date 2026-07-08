@@ -62,12 +62,21 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "ss01" on, "cv11" on;
   }
   ::selection {
     background: var(--primary);
     color: var(--primary-foreground);
   }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* Fraunces at full character: wonky terminals + soft curves on display italics */
+.wonk {
+  font-variation-settings: "WONK" 1, "SOFT" 60;
 }
 
 /* ---------------------------------------------------------------------------

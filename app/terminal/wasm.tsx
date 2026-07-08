@@ -1,304 +1,219 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type { WasmModule } from './types';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { loadWasmShell, runSiteCommand, stripAnsi, type ShellExec } from '@/lib/shell';
 
-declare global {
-  interface Window {
-    Module: WasmModule;
-  }
-}
+const WELCOME: string[] = [
+  'MiniShell — a Unix shell written in C, compiled to WebAssembly.',
+  'This is the real binary running in your browser, on a sandboxed',
+  'virtual filesystem. Nothing here is faked in JavaScript.',
+  '',
+  'shell:  ls · cd · pwd · cat · echo · touch · mkdir · rm · date',
+  'site:   whoami · resume · github · sudo hire-ben · help',
+  '',
+];
 
-interface TerminalProps {
-  className?: string;
-}
+const COMPLETIONS = [
+  'ls', 'cd', 'pwd', 'echo', 'cat', 'touch', 'mkdir', 'rm', 'date',
+  'whoami', 'clear', 'help', 'resume', 'github', 'linkedin', 'contact', 'exit',
+];
 
-const WELCOME_MESSAGE = `\x1b[32mWelcome to MiniShell!
+type Line = { kind: 'cmd' | 'out'; text: string; path?: string };
 
-This is a web-based terminal emulator that simulates basic Unix commands.
-Try these commands:
-- ls: List directory contents
-- pwd: Print working directory
-- cd: Change directory
-- cat: Read file contents
-- touch: Create a new file
-- mkdir: Create a new directory
-- clear: Clear the terminal
-- help: Show this help message\x1b[0m
-`;
-
-export function WasmTerminal({ className }: TerminalProps) {
+export function WasmTerminal() {
   const [input, setInput] = useState('');
-  const [history, setHistory] = useState<string[]>([]);
-  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [lines, setLines] = useState<Line[]>([]);
+  const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [currentPath, setCurrentPath] = useState('/home');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState<string>();
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const execRef = useRef<ShellExec | null>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const moduleRef = useRef<WasmModule | null>(null);
-
-  // List of available commands for tab completion
-  const commands = ['ls', 'cd', 'pwd', 'echo', 'cat', 'touch', 'mkdir', 'rm', 'date', 'whoami', 'clear', 'help', 'readme'];
 
   useEffect(() => {
-    const initWasm = async () => {
-      try {
-        if (typeof window === 'undefined') return;
-
-        window.Module = {
-          onRuntimeInitialized: () => {
-            moduleRef.current = window.Module;
-            if (moduleRef.current) {
-              moduleRef.current._main?.();
-              setHistory([WELCOME_MESSAGE]);
-              setIsLoaded(true);
-            }
-          },
-          print: (text: string) => {
-            setHistory(prev => [...prev, text]);
-          },
-          printErr: (text: string) => {
-            console.error('WASM Error:', text);
-            setError(text);
-          }
-        } as WasmModule;
-
-        const script = document.createElement('script');
-        script.src = '/wasm/terminal.js';
-        script.async = true;
-        script.onerror = (e) => {
-          console.error('Failed to load WASM script:', e);
-          setError('Failed to load terminal script');
-        };
-        document.body.appendChild(script);
-      } catch (err) {
-        console.error('Failed to initialize WASM module:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load terminal');
-      }
-    };
-
-    initWasm();
+    let cancelled = false;
+    loadWasmShell()
+      .then((exec) => {
+        if (cancelled) return;
+        execRef.current = exec;
+        setStatus('ready');
+      })
+      .catch(() => !cancelled && setStatus('error'));
     return () => {
-      const script = document.querySelector('script[src="/wasm/terminal.js"]');
-      if (script) document.body.removeChild(script);
+      cancelled = true;
     };
   }, []);
 
   useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-    }
-  }, [history]);
+    outputRef.current?.scrollTo({ top: outputRef.current.scrollHeight });
+  }, [lines]);
 
-  const handleCommand = (cmd: string) => {
-    if (!moduleRef.current) return;
+  const print = useCallback((...texts: string[]) => {
+    setLines((prev) => [...prev, ...texts.map((text) => ({ kind: 'out' as const, text }))]);
+  }, []);
 
-    // Add command to history
-    setCommandHistory(prev => [...prev, cmd]);
+  const run = (raw: string) => {
+    const cmd = raw.trim();
+    if (!cmd) return;
+    setCmdHistory((prev) => [...prev, cmd]);
     setHistoryIndex(-1);
+    setLines((prev) => [...prev, { kind: 'cmd', text: cmd, path: currentPath }]);
 
-    // Add command line to history
-    const commandLine = `guest@terminal:${currentPath}$ ${cmd}`;
-    setHistory(prev => [...prev, commandLine]);
+    const handled = runSiteCommand(cmd, {
+      print,
+      clear: () => setLines([]),
+      open: (href) => window.open(href, '_blank', 'noopener'),
+      goto: (target) => {
+        window.location.href = target.startsWith('#') ? `/${target}` : target;
+      },
+      exit: () => {
+        window.location.href = '/';
+      },
+    });
+    if (handled) return;
 
-    // Handle clear command directly
-    if (cmd.trim() === 'clear') {
-      setHistory([]);
+    const exec = execRef.current;
+    if (!exec) {
+      print('shell is still loading — one sec.');
       return;
     }
-
-    // Execute command
-    const output = moduleRef.current.ccall(
-      'process_wasm_command',
-      'string',
-      ['string'],
-      [cmd]
-    );
-
-    // Handle output
-    if (output.trim()) {
-      // Remove ANSI escape codes
-      const cleanOutput = output
-        .replace(/\x1b\[2J\x1b\[H/g, '') // Clear screen codes
-        .replace(/\x1b\[\d*[A-Za-z]/g, ''); // Other ANSI codes
-
-      if (cleanOutput.trim()) {
-        setHistory(prev => [...prev, cleanOutput]);
-      }
-    }
-
-    // Update path for cd commands
-    if (cmd.startsWith('cd ')) {
-      const newPath = moduleRef.current.ccall(
-        'process_wasm_command',
-        'string',
-        ['string'],
-        ['pwd']
-      ).trim();
-      setCurrentPath(newPath);
+    const output = stripAnsi(exec(cmd)).trimEnd();
+    if (output) print(...output.split('\n'));
+    if (cmd.startsWith('cd')) {
+      setCurrentPath(stripAnsi(exec('pwd')).trim());
     }
   };
 
   const handleTabCompletion = () => {
-    const inputWords = input.split(' ');
-    const lastWord = inputWords[inputWords.length - 1];
-    
-    // Complete commands if we're at the start of the input
-    if (inputWords.length === 1) {
-      const matches = commands.filter(cmd => cmd.startsWith(lastWord));
+    const words = input.split(' ');
+    const last = words[words.length - 1];
+    if (words.length === 1) {
+      const matches = COMPLETIONS.filter((c) => c.startsWith(last));
+      if (matches.length === 1) setInput(matches[0]);
+      else if (matches.length > 1) print(matches.join('  '));
+    } else if (execRef.current && ['cd', 'cat', 'rm', 'touch'].includes(words[0])) {
+      const files = stripAnsi(execRef.current('ls')).split('\n').filter(Boolean);
+      const matches = files.filter((f) => f.startsWith(last));
       if (matches.length === 1) {
-        setInput(matches[0]);
+        words[words.length - 1] = matches[0];
+        setInput(words.join(' '));
       } else if (matches.length > 1) {
-        // Show available completions
-        const completionsLine = matches.join('  ');
-        setHistory(prev => [...prev, completionsLine]);
-      }
-    }
-    // Complete file paths for commands that accept them
-    else if (moduleRef.current && ['cd', 'cat', 'rm', 'touch'].includes(inputWords[0])) {
-      // Get current directory contents using ls command
-      const output = moduleRef.current.ccall(
-        'process_wasm_command',
-        'string',
-        ['string'],
-        ['ls']
-      );
-      
-      // Parse the output into an array of files/directories
-      const files: string[] = output.split('\n').filter(Boolean);
-      
-      // Filter matches based on the partial path
-      const matches = files.filter((file: string) => file.startsWith(lastWord));
-      
-      if (matches.length === 1) {
-        // Replace the last word with the complete match
-        inputWords[inputWords.length - 1] = matches[0];
-        setInput(inputWords.join(' '));
-      } else if (matches.length > 1) {
-        // Show available completions
-        const completionsLine = matches.join('  ');
-        setHistory(prev => [...prev, completionsLine]);
+        print(matches.join('  '));
       }
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && input.trim()) {
-      handleCommand(input.trim());
+      run(input);
       setInput('');
     } else if (e.key === 'Tab') {
       e.preventDefault();
       handleTabCompletion();
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
-        const newIndex = historyIndex + 1;
-        setHistoryIndex(newIndex);
-        setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+      if (cmdHistory.length > 0 && historyIndex < cmdHistory.length - 1) {
+        const next = historyIndex + 1;
+        setHistoryIndex(next);
+        setInput(cmdHistory[cmdHistory.length - 1 - next]);
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (historyIndex > 0) {
-        const newIndex = historyIndex - 1;
-        setHistoryIndex(newIndex);
-        setInput(commandHistory[commandHistory.length - 1 - newIndex]);
-      } else if (historyIndex === 0) {
+        const next = historyIndex - 1;
+        setHistoryIndex(next);
+        setInput(cmdHistory[cmdHistory.length - 1 - next]);
+      } else {
         setHistoryIndex(-1);
         setInput('');
       }
     }
   };
 
-  const handleInputFocus = () => {
-    inputRef.current?.focus();
-  };
+  const focusInput = () => inputRef.current?.focus();
 
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-black text-green-500 p-4 font-mono flex items-center justify-center">
-        <div className="animate-pulse">Loading terminal...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
-  }
+  const Prompt = ({ path }: { path: string }) => (
+    <span className="whitespace-nowrap">
+      <span className="text-primary">guest@bdadams.dev</span>
+      <span className="text-muted-foreground">:</span>
+      <span className="text-foreground">{path}</span>
+      <span className="text-muted-foreground">$</span>
+    </span>
+  );
 
   return (
-    <div className="min-h-screen bg-black text-green-500 p-4 font-mono" style={{ 
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100vw',
-      height: '100vh',
-      overflow: 'hidden',
-      margin: 0,
-      padding: '1rem'
-    }}>
-      <div className="max-h-[80vh] overflow-y-auto" ref={terminalRef}>
-        {/* Welcome Message */}
-        <div className="mb-2">
-          <div className="whitespace-pre-wrap">
-            {WELCOME_MESSAGE.replace(/\x1b\[32m/g, '').replace(/\x1b\[0m/g, '')}
-          </div>
+    <main className="flex h-dvh flex-col bg-background text-foreground">
+      {/* Chrome bar */}
+      <header className="flex items-center gap-3 border-b border-border px-5 py-3">
+        <span className="flex gap-1.5" aria-hidden="true">
+          <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
+          <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
+          <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
+        </span>
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+          minishell — C, compiled to WebAssembly
+        </span>
+        <a
+          href="/"
+          className="ml-auto font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary"
+        >
+          ← bdadams.dev
+        </a>
+      </header>
+
+      {/* Output + input */}
+      <div
+        className="flex-1 cursor-text overflow-y-auto px-5 py-4 font-mono text-[13px] leading-relaxed"
+        ref={outputRef}
+        onClick={focusInput}
+      >
+        <div className="mb-3 whitespace-pre-wrap text-muted-foreground">
+          {WELCOME.join('\n')}
         </div>
 
-        {/* Command History */}
-        {history.map((line, i) => {
-          if (!line.startsWith('\x1b[32m')) {
-            if (line.startsWith('guest@terminal')) {
-              // Command input
-              return (
-                <div key={i} className="mb-2">
-                  <div className="flex">
-                    <span className="text-blue-500">guest@terminal</span>
-                    <span className="text-white">:</span>
-                    <span className="text-purple-500">{currentPath}</span>
-                    <span className="text-white">$</span>
-                    <span className="ml-1">{line.split('$ ')[1]}</span>
-                  </div>
-                </div>
-              );
-            } else {
-              // Command output
-              return (
-                <div key={i} className="mb-2">
-                  <div className="whitespace-pre-wrap">
-                    {line.split(/(\s+)/).map((part, j) => 
-                      part === 'readme.txt' || part === 'projects/' ? (
-                        <span key={j} className="text-purple-500">{part}</span>
-                      ) : (
-                        part
-                      )
-                    )}
-                  </div>
-                </div>
-              );
-            }
-          }
-          return null;
-        })}
+        <div role="log" aria-live="polite">
+          {lines.map((line, i) =>
+            line.kind === 'cmd' ? (
+              <div key={i} className="mt-1">
+                <Prompt path={line.path ?? currentPath} />
+                <span className="ml-2">{line.text}</span>
+              </div>
+            ) : (
+              <div key={i} className="whitespace-pre-wrap">
+                {line.text}
+              </div>
+            ),
+          )}
+        </div>
 
-        {/* Current Input Line */}
-        <div className="flex">
-          <span className="text-blue-500">guest@terminal</span>
-          <span className="text-white">:</span>
-          <span className="text-purple-500">{currentPath}</span>
-          <span className="text-white">$</span>
+        {status === 'error' && (
+          <div className="text-destructive">
+            minishell failed to load. the rest of the site still works: <a className="underline" href="/">bdadams.dev</a>
+          </div>
+        )}
+
+        <div className="mt-1 flex items-center">
+          <Prompt path={currentPath} />
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none border-none ml-1"
+            onKeyDown={onKeyDown}
+            aria-label="Shell input"
+            autoComplete="off"
+            autoCapitalize="off"
+            spellCheck={false}
             autoFocus
+            disabled={status === 'error'}
+            className="ml-2 flex-1 bg-transparent caret-[var(--primary)] outline-none"
           />
         </div>
+        {status === 'loading' && (
+          <div className="mt-2 text-muted-foreground">loading the shell binary (~45 KB)…</div>
+        )}
       </div>
-    </div>
+    </main>
   );
-} 
+}
