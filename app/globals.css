@@ -53,6 +53,12 @@
   --ring: #83c2a4;
 }
 
+/* Motion vocabulary — one easing family for the whole site. */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.32, 1.4, 0.45, 1);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -85,7 +91,8 @@
 
 .grain {
   position: fixed;
-  inset: 0;
+  /* Oversized so it can jitter without exposing edges. */
+  inset: -100%;
   z-index: 60;
   pointer-events: none;
   opacity: 0.5;
@@ -97,28 +104,86 @@
   opacity: 0.35;
 }
 
+/* Living grain: discrete film-like jumps, composited transform only. */
+@media (prefers-reduced-motion: no-preference) {
+  .grain {
+    animation: grain-jitter 1.4s steps(1, end) infinite;
+  }
+}
+@keyframes grain-jitter {
+  0%      { transform: translate3d(0, 0, 0); }
+  14.3%   { transform: translate3d(-1.2%, 0.8%, 0); }
+  28.6%   { transform: translate3d(0.9%, -1.4%, 0); }
+  42.9%   { transform: translate3d(-0.6%, -0.7%, 0); }
+  57.1%   { transform: translate3d(1.3%, 0.5%, 0); }
+  71.4%   { transform: translate3d(-1%, 1.2%, 0); }
+  85.7%   { transform: translate3d(0.7%, -0.9%, 0); }
+  100%    { transform: translate3d(0, 0, 0); }
+}
+
 /* ---------------------------------------------------------------------------
-   Load-in reveal (hero only) + blinking terminal cursor.
+   Hero entrance choreography (pure CSS — runs without JS).
 --------------------------------------------------------------------------- */
 
 @keyframes rise {
   from {
     opacity: 0;
     transform: translateY(14px);
+    filter: blur(3px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
 .reveal {
-  animation: rise 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  animation: rise 0.45s var(--ease-out) both;
 }
+
+/* Masked word rise for the display name. Padding trick keeps descenders
+   ("j" in Benjamin, italic swashes) unclipped under the tight line-height. */
+.mask-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
+.mask-word > span {
+  display: inline-block;
+  transform: translateY(130%);
+  animation: word-rise 0.45s var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes word-rise {
+  to { transform: translateY(0); }
+}
+
+/* Status line types itself out once: per-char step reveal, no layout tricks,
+   so it still wraps on small screens. */
+.type-line > span {
+  opacity: 0;
+  animation: char-in 1ms steps(1, end) both;
+  animation-delay: calc(var(--td, 0ms) + var(--i, 0) * 9ms);
+}
+@keyframes char-in {
+  to { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------------
+   Terminal cursor: blinks, glows gently, and only wakes after the hero settles.
+--------------------------------------------------------------------------- */
 
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
+}
+
+@keyframes cursor-glow {
+  0%, 100% { box-shadow: 0 0 3px 0 color-mix(in srgb, var(--primary) 35%, transparent); }
+  50% { box-shadow: 0 0 9px 1px color-mix(in srgb, var(--primary) 55%, transparent); }
 }
 
 .cursor-blink {
@@ -128,30 +193,282 @@
   margin-left: 0.18em;
   vertical-align: text-bottom;
   background: var(--primary);
-  animation: blink 1.15s step-end infinite;
+  animation:
+    blink 1.15s step-end infinite,
+    cursor-glow 2.6s ease-in-out infinite;
 }
+
+/* Boot state: invisible until the entrance choreography lands. */
+.cursor-boot {
+  opacity: 0;
+  animation:
+    char-in 1ms steps(1, end) 1.4s both,
+    blink 1.15s step-end 1.4s infinite,
+    cursor-glow 2.6s ease-in-out 1.4s infinite;
+}
+
+/* Prompt output panel: expands in with a spring-feel overshoot. */
+.panel-pop {
+  transform-origin: top left;
+  animation: panel-pop 0.36s var(--ease-spring) both;
+}
+@keyframes panel-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+}
+
+/* Each printed terminal line materializes. */
+.term-line {
+  animation: term-line-in 0.18s var(--ease-out) both;
+}
+@keyframes term-line-in {
+  from {
+    opacity: 0;
+    transform: translateX(-3px);
+  }
+}
+
+/* Command chips pop in, staggered via --i. */
+.chip-in {
+  animation: chip-in 0.3s var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.94);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-triggered reveals — one orchestrated system.
+
+   JS (components/motion.tsx) adds `.in` when an element enters the viewport.
+   Hidden states are gated behind BOTH `html.js` (no-JS ⇒ fully static site)
+   and `prefers-reduced-motion: no-preference` (reduced ⇒ fully static site).
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal],
+  html.js [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(3px);
+    transition:
+      opacity 0.4s var(--ease-out),
+      transform 0.4s var(--ease-out),
+      filter 0.4s var(--ease-out);
+  }
+  html.js [data-reveal].in,
+  html.js [data-reveal-stagger].in > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  /* Stagger children, capped at 6. */
+  html.js [data-reveal-stagger].in > :nth-child(2) { transition-delay: 70ms; }
+  html.js [data-reveal-stagger].in > :nth-child(3) { transition-delay: 140ms; }
+  html.js [data-reveal-stagger].in > :nth-child(4) { transition-delay: 210ms; }
+  html.js [data-reveal-stagger].in > :nth-child(5) { transition-delay: 280ms; }
+  html.js [data-reveal-stagger].in > :nth-child(n + 6) { transition-delay: 350ms; }
+
+  /* Section-heading hairline draws itself once the heading lands. */
+  html.js [data-reveal] .rule {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out) 0.18s;
+  }
+  html.js [data-reveal].in .rule {
+    transform: scaleX(1);
+  }
+
+  /* Timeline node pops with a small overshoot after its row reveals. */
+  html.js [data-reveal] .node {
+    transform: scale(0);
+    transition: transform 0.3s var(--ease-spring) 0.25s;
+  }
+  html.js [data-reveal].in .node {
+    transform: scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Timeline rail: draws itself downward, linked to scroll position.
+   CSS scroll-driven animation — progressive enhancement, static hairline
+   everywhere else (and whenever reduced motion is set).
+--------------------------------------------------------------------------- */
+
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rail::before {
+      transform-origin: top;
+      animation: rail-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 45%;
+    }
+  }
+}
+@keyframes rail-draw {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* ---------------------------------------------------------------------------
+   Sticky header: shadow fades in once the page has scrolled.
+--------------------------------------------------------------------------- */
+
+.site-header {
+  transition: box-shadow 0.3s ease;
+}
+html[data-scrolled] .site-header {
+  box-shadow: 0 8px 24px -16px color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+   Theme toggle: circular reveal via the View Transition API.
+   --vt-x/--vt-y/--vt-r are set from the toggle's position at click time.
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+  ::view-transition-new(root) {
+    z-index: 2;
+    animation: vt-circle 0.4s ease-in both;
+  }
+}
+@keyframes vt-circle {
+  from {
+    clip-path: circle(0px at var(--vt-x, 50%) var(--vt-y, 0%));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0%));
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Links: underline that draws itself in from the left.
+   Layer 1 (resting): hairline in --border. Layer 2 (hover): draws in --primary.
+--------------------------------------------------------------------------- */
+
+.link-editorial {
+  text-decoration: none;
+  background-image:
+    linear-gradient(var(--border), var(--border)),
+    linear-gradient(var(--primary), var(--primary));
+  background-size: 100% 1px, 0% 1px;
+  background-position: 0 100%, 0 100%;
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-bottom: 0.14em;
+  transition: color 0.25s ease, background-size 0.3s var(--ease-out);
+}
+.link-editorial:hover {
+  color: var(--primary);
+  background-size: 100% 1px, 100% 1px;
+}
+
+/* Nav links: same draw-in, no resting underline. */
+.nav-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 0.2em;
+  transition: color 0.2s ease, background-size 0.25s var(--ease-out);
+}
+.nav-link:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------------------------------------------------------------------------
+   Project cards: quiet lift, and the terminal traffic-lights fill in
+   sequence while you hover.
+--------------------------------------------------------------------------- */
+
+.project-card {
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out);
+}
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -24px color-mix(in srgb, var(--foreground) 32%, transparent);
+}
+
+.term-dot {
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.project-card:hover .term-dot {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.project-card:hover .term-dot:nth-child(2) { transition-delay: 60ms; }
+.project-card:hover .term-dot:nth-child(3) { transition-delay: 120ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card:hover {
+    transform: none;
+  }
+}
+
+/* Arrows nudge on hover: → slides right, ↗ lifts up-and-right. */
+.arrow-ext {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-out);
+}
+a:hover .arrow-ext {
+  transform: translate(2px, -2px);
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion: the site is 100% usable, fully static.
+--------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
+  .reveal,
+  .mask-word > span,
+  .type-line > span,
+  .cursor-blink,
+  .cursor-boot,
+  .panel-pop,
+  .term-line,
+  .chip-in,
+  .grain {
     animation: none;
   }
-  .cursor-blink {
-    animation: none;
+  .mask-word > span {
+    transform: none;
   }
-}
-
-/* Underline treatment for inline links */
-.link-editorial {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: var(--border);
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-.link-editorial:hover {
-  color: var(--primary);
-  text-decoration-color: var(--primary);
+  .type-line > span {
+    opacity: 1;
+  }
+  .cursor-blink,
+  .cursor-boot {
+    opacity: 1;
+    box-shadow: none;
+  }
 }

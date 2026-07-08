@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { HeroPrompt } from "@/components/hero-prompt";
+import { ScrollFX, Metric } from "@/components/motion";
 
 /* ----------------------------------------------------------------------------
    Content
@@ -139,15 +140,47 @@ const projects = [
 
 function SectionHeading({ index, label }: { index: string; label: string }) {
   return (
-    <h2 className="mb-10 flex items-center gap-4">
+    <h2 className="mb-10 flex items-center gap-4" data-reveal>
       <span className="font-mono text-[11px] font-medium tracking-[0.22em] text-primary/60">
         {index}
       </span>
       <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
         {label}
       </span>
-      <span className="h-px flex-1 bg-border" aria-hidden="true" />
+      <span className="rule h-px flex-1 bg-border" aria-hidden="true" />
     </h2>
+  );
+}
+
+/**
+ * Server-rendered "types itself" line: every character is a span revealed on
+ * a steps() delay, so the text still wraps naturally, stays selectable via
+ * the sr-only copy, and renders instantly with reduced motion or no JS.
+ */
+function TypedLine({
+  text,
+  delay = 0,
+  className,
+}: {
+  text: string;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <p className={className}>
+      <span className="sr-only">{text}</span>
+      <span
+        aria-hidden="true"
+        className="type-line"
+        style={{ "--td": `${delay}ms` } as React.CSSProperties}
+      >
+        {Array.from(text).map((ch, i) => (
+          <span key={i} style={{ "--i": i } as React.CSSProperties}>
+            {ch}
+          </span>
+        ))}
+      </span>
+    </p>
   );
 }
 
@@ -170,7 +203,7 @@ function DateStamp({ dates, location, align }: { dates: string; location: string
 
 function ExternalArrow() {
   return (
-    <span aria-hidden="true" className="inline-block">
+    <span aria-hidden="true" className="arrow-ext">
       &nbsp;↗
     </span>
   );
@@ -197,6 +230,7 @@ function CaseStudyLink({ href, label }: { href: string; label: string }) {
 export default function Portfolio() {
   return (
     <>
+      <ScrollFX />
       <a
         href="#work"
         className="fixed left-4 top-4 z-[70] -translate-y-20 rounded-full bg-primary px-4 py-2 font-mono text-xs text-primary-foreground transition-transform focus:translate-y-0"
@@ -205,23 +239,23 @@ export default function Portfolio() {
       </a>
 
       {/* Header ------------------------------------------------------------ */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-sm">
+      <header className="site-header sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-[46rem] items-center justify-between px-6 lg:max-w-[58rem]">
           <a href="#top" className="font-display text-[15px] italic tracking-tight">
             Benjamin Adams
           </a>
           <nav aria-label="Main" className="flex items-center gap-5">
             <div className="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex">
-              <a className="transition-colors hover:text-primary" href="#work">Work</a>
-              <a className="transition-colors hover:text-primary" href="#projects">Projects</a>
-              <a className="transition-colors hover:text-primary" href="#about">About</a>
-              <a className="transition-colors hover:text-primary" href="#contact">Contact</a>
+              <a className="nav-link hover:text-primary" href="#work">Work</a>
+              <a className="nav-link hover:text-primary" href="#projects">Projects</a>
+              <a className="nav-link hover:text-primary" href="#about">About</a>
+              <a className="nav-link hover:text-primary" href="#contact">Contact</a>
             </div>
             <a
               href={links.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-primary px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-[#174736] dark:hover:bg-[#9ad0b5]"
+              className="rounded-full bg-primary px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-primary-foreground transition-[background-color,transform] duration-200 hover:bg-[#174736] active:scale-[0.97] motion-reduce:active:scale-100 dark:hover:bg-[#9ad0b5]"
             >
               Résumé
             </a>
@@ -233,29 +267,30 @@ export default function Portfolio() {
       <main id="top" className="mx-auto max-w-[46rem] px-6 lg:max-w-[58rem]">
         {/* Hero -------------------------------------------------------------- */}
         <section className="pb-20 pt-16 sm:pb-24 sm:pt-24 lg:max-w-[46rem]">
-          <h1
-            className="reveal font-display text-[clamp(3.2rem,9vw,5.75rem)] leading-[0.98] tracking-tight [text-wrap:balance]"
-            style={{ animationDelay: "0ms" }}
-          >
-            Benjamin <em className="wonk text-primary">Adams</em>
+          <h1 className="font-display text-[clamp(3.2rem,9vw,5.75rem)] leading-[0.98] tracking-tight [text-wrap:balance]">
+            <span className="mask-word">
+              <span style={{ "--d": "0ms" } as React.CSSProperties}>Benjamin</span>
+            </span>{" "}
+            <em className="wonk mask-word text-primary">
+              <span style={{ "--d": "110ms" } as React.CSSProperties}>Adams</span>
+            </em>
           </h1>
           <p
             className="reveal mt-7 max-w-[34rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
-            style={{ animationDelay: "90ms" }}
+            style={{ animationDelay: "220ms" }}
           >
             Software engineer at PlusWellbeing.ai, turning LLM output into
             structured healthcare data — and making the PostgreSQL underneath
             it fast.
           </p>
-          <p
-            className="reveal mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
-            style={{ animationDelay: "180ms" }}
-          >
-            Boston, MA · Northeastern CS ’26 · Open to new-grad roles
-          </p>
+          <TypedLine
+            className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
+            text="Boston, MA · Northeastern CS ’26 · Open to new-grad roles"
+            delay={450}
+          />
           <div
             className="reveal mt-6 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm"
-            style={{ animationDelay: "270ms" }}
+            style={{ animationDelay: "560ms" }}
           >
             <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
               GitHub<ExternalArrow />
@@ -267,7 +302,7 @@ export default function Portfolio() {
               {links.email}
             </a>
           </div>
-          <div className="reveal mt-10" style={{ animationDelay: "360ms" }}>
+          <div className="reveal mt-10" style={{ animationDelay: "720ms" }}>
             <HeroPrompt />
           </div>
         </section>
@@ -278,15 +313,15 @@ export default function Portfolio() {
 
           {/* Featured: PlusWellbeing */}
           <article className="lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
-            <div className="relative hidden lg:block lg:border-r lg:border-border lg:pr-6 lg:pt-2">
+            <div className="rail relative hidden lg:block lg:pr-6 lg:pt-2" data-reveal>
               <DateStamp dates={featuredRole.dates} location={featuredRole.location} />
               <span
                 aria-hidden="true"
-                className="absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
+                className="node absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
               />
             </div>
             <div>
-              <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between" data-reveal>
                 <div>
                   <h3 className="font-display text-2xl tracking-tight">
                     <a className="transition-colors hover:text-primary" href={featuredRole.companyUrl} target="_blank" rel="noopener noreferrer">
@@ -301,12 +336,12 @@ export default function Portfolio() {
               </div>
               <ul className="mt-2 divide-y divide-border">
                 {featuredRole.items.map((item) => (
-                  <li key={item.title} className="py-6">
+                  <li key={item.title} className="py-6" data-reveal>
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <h4 className="font-display text-lg tracking-tight">{item.title}</h4>
                       {item.metric && (
                         <span className="font-mono text-sm font-medium text-primary">
-                          {item.metric}
+                          <Metric value={item.metric} />
                         </span>
                       )}
                     </div>
@@ -324,18 +359,21 @@ export default function Portfolio() {
           </article>
 
           {/* Earlier roles */}
-          <p className="mt-12 mb-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <p
+            className="mt-12 mb-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
+            data-reveal
+          >
             Earlier
-            <span className="h-px flex-1 bg-border" aria-hidden="true" />
+            <span className="rule h-px flex-1 bg-border" aria-hidden="true" />
           </p>
           <div className="space-y-12">
             {earlierRoles.map((role) => (
-              <article key={role.company} className="lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
-                <div className="relative hidden lg:block lg:border-r lg:border-border lg:pr-6 lg:pt-2">
+              <article key={role.company} className="lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10" data-reveal>
+                <div className="rail relative hidden lg:block lg:pr-6 lg:pt-2">
                   <DateStamp dates={role.dates} location={role.location} />
                   <span
                     aria-hidden="true"
-                    className="absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
+                    className="node absolute -right-[3.5px] top-3 h-1.5 w-1.5 rounded-full bg-primary"
                   />
                 </div>
                 <div>
@@ -365,18 +403,18 @@ export default function Portfolio() {
         {/* Projects ----------------------------------------------------------- */}
         <section id="projects" className="scroll-mt-20 pb-20">
           <SectionHeading index="02" label="Projects" />
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2" data-reveal-stagger>
             {projects.map((project) => (
               <article
                 key={project.title}
-                className="group rounded-lg border border-border bg-card transition-colors duration-300 hover:border-primary/60"
+                className="project-card group rounded-lg border border-border bg-card hover:border-primary/60"
               >
                 {/* terminal chrome */}
                 <div className="flex items-center gap-2 border-b border-border px-5 py-3">
                   <span className="flex gap-1.5" aria-hidden="true">
-                    <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
-                    <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
-                    <span className="h-2 w-2 rounded-full border border-muted-foreground/50" />
+                    <span className="term-dot h-2 w-2 rounded-full border border-muted-foreground/50" />
+                    <span className="term-dot h-2 w-2 rounded-full border border-muted-foreground/50" />
+                    <span className="term-dot h-2 w-2 rounded-full border border-muted-foreground/50" />
                   </span>
                   <span className="ml-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                     {project.tagline}
@@ -423,7 +461,7 @@ export default function Portfolio() {
         {/* About --------------------------------------------------------------- */}
         <section id="about" className="scroll-mt-20 pb-20 lg:max-w-[46rem]">
           <SectionHeading index="03" label="About" />
-          <p className="max-w-[38rem] text-lg leading-relaxed [text-wrap:pretty]">
+          <p className="max-w-[38rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
             I like systems that are fast, typed, and observable — and the
             unglamorous work that makes AI features trustworthy:
             schema-constrained outputs, idempotent backfills, queries that
@@ -434,35 +472,42 @@ export default function Portfolio() {
         {/* Contact ------------------------------------------------------------- */}
         <section id="contact" className="scroll-mt-20 pb-20 lg:max-w-[46rem]">
           <SectionHeading index="04" label="Contact" />
-          <p className="font-display text-4xl tracking-tight sm:text-5xl">
-            Let’s <em className="wonk text-primary">connect</em>.
-          </p>
-          <p className="mt-4 max-w-[34rem] text-[15px] leading-relaxed text-muted-foreground">
-            Email is the fastest way to reach me — I read every message.
-          </p>
-          <a
-            className="link-editorial mt-6 inline-block font-display text-xl tracking-tight sm:text-2xl"
-            href={`mailto:${links.email}`}
-          >
-            {links.email}
-          </a>
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm">
-            <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
-              GitHub<ExternalArrow />
-            </a>
-            <a className="link-editorial" href={links.linkedin} target="_blank" rel="noopener noreferrer">
-              LinkedIn<ExternalArrow />
-            </a>
-            <a className="link-editorial" href={links.resume} target="_blank" rel="noopener noreferrer">
-              Résumé (PDF)
-            </a>
+          <div data-reveal-stagger>
+            <p className="font-display text-4xl tracking-tight sm:text-5xl">
+              Let’s <em className="wonk text-primary">connect</em>.
+            </p>
+            <p className="mt-4 max-w-[34rem] text-[15px] leading-relaxed text-muted-foreground">
+              Email is the fastest way to reach me — I read every message.
+            </p>
+            <div className="mt-6">
+              <a
+                className="link-editorial inline-block font-display text-xl tracking-tight sm:text-2xl"
+                href={`mailto:${links.email}`}
+              >
+                {links.email}
+              </a>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm">
+              <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
+                GitHub<ExternalArrow />
+              </a>
+              <a className="link-editorial" href={links.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn<ExternalArrow />
+              </a>
+              <a className="link-editorial" href={links.resume} target="_blank" rel="noopener noreferrer">
+                Résumé (PDF)
+              </a>
+            </div>
           </div>
         </section>
       </main>
 
       {/* Footer -------------------------------------------------------------- */}
       <footer className="mx-auto max-w-[46rem] px-6 lg:max-w-[58rem]">
-        <div className="flex flex-col gap-2 border-t border-border py-8 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div
+          className="flex flex-col gap-2 border-t border-border py-8 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between"
+          data-reveal
+        >
           <span>© 2026 Benjamin Adams</span>
           <span className="normal-case">$ curl bdadams.dev — yes, really</span>
           <span>Boston, MA — built with Next.js</span>

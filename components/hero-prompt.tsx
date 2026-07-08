@@ -5,6 +5,9 @@ import { loadWasmShell, runSiteCommand, stripAnsi } from '@/lib/shell';
 
 const CHIPS = ['help', 'work', 'resume', 'minishell'];
 
+/** Hints the idle prompt ghost-types while nobody is using it. */
+const GHOST_HINTS = ['whoami', 'help'];
+
 /**
  * The hero's `$` line — a real prompt. Site commands (help, work, resume…)
  * are handled in JS; anything else runs on the MiniShell WASM binary,
@@ -18,6 +21,8 @@ export function HeroPrompt() {
   const [showChips, setShowChips] = useState(false);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [ghost, setGhost] = useState('whoami');
+  const [booted, setBooted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
 
@@ -25,6 +30,53 @@ export function HeroPrompt() {
   useEffect(() => {
     if (window.matchMedia('(hover: none)').matches) setShowChips(true);
   }, []);
+
+  // The cursor only starts blinking after the hero entrance settles (the
+  // 1.4s delay lives in CSS — `.cursor-boot`); drop the boot class once
+  // it's past so later re-renders show a normal cursor immediately.
+  useEffect(() => {
+    const t = window.setTimeout(() => setBooted(true), 1600);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  // Idle theater: ghost-type hints, hold, erase — a slow heartbeat, not a
+  // marquee. Stops the moment the prompt is activated; skipped entirely
+  // under prefers-reduced-motion.
+  useEffect(() => {
+    if (active) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let cancelled = false;
+    const timers: number[] = [];
+    const wait = (ms: number) =>
+      new Promise<void>((resolve) => {
+        timers.push(window.setTimeout(resolve, ms));
+      });
+
+    (async () => {
+      await wait(2800); // let the entrance land, then a long idle beat
+      for (let i = 0; !cancelled; i++) {
+        const current = GHOST_HINTS[i % GHOST_HINTS.length];
+        for (let n = current.length - 1; n >= 0 && !cancelled; n--) {
+          setGhost(current.slice(0, n));
+          await wait(40);
+        }
+        await wait(450);
+        const next = GHOST_HINTS[(i + 1) % GHOST_HINTS.length];
+        for (let n = 1; n <= next.length && !cancelled; n++) {
+          setGhost(next.slice(0, n));
+          await wait(75);
+        }
+        await wait(6000); // rest — restraint is the whole trick
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      timers.forEach((t) => window.clearTimeout(t));
+      setGhost('whoami');
+    };
+  }, [active]);
 
   useEffect(() => {
     outputRef.current?.scrollTo({ top: outputRef.current.scrollHeight });
@@ -115,8 +167,11 @@ export function HeroPrompt() {
           aria-label="Activate the site terminal"
         >
           <span className="text-primary">$&nbsp;</span>
-          <span className="text-muted-foreground">whoami</span>
-          <span className="cursor-blink" aria-hidden="true" />
+          <span className="text-muted-foreground">{ghost}</span>
+          <span
+            className={booted ? 'cursor-blink' : 'cursor-blink cursor-boot'}
+            aria-hidden="true"
+          />
         </button>
       ) : (
         <div
@@ -156,12 +211,13 @@ export function HeroPrompt() {
       {/* Command chips (touch devices, or once focused) */}
       {showChips && (
         <div className="mt-3 flex flex-wrap gap-2">
-          {CHIPS.map((chip) => (
+          {CHIPS.map((chip, i) => (
             <button
               key={chip}
               type="button"
               onClick={() => void run(chip)}
-              className="rounded-full border border-border px-3 py-1 font-mono text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+              style={{ '--i': i } as React.CSSProperties}
+              className="chip-in rounded-full border border-border px-3 py-1 font-mono text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
             >
               {chip}
             </button>
@@ -175,12 +231,16 @@ export function HeroPrompt() {
           ref={outputRef}
           role="log"
           aria-live="polite"
-          className="mt-4 max-h-64 overflow-y-auto rounded-lg border border-border bg-card p-4 font-mono text-[13px] leading-relaxed text-card-foreground"
+          className="panel-pop mt-4 max-h-64 overflow-y-auto rounded-lg border border-border bg-card p-4 font-mono text-[13px] leading-relaxed text-card-foreground"
         >
           {lines.map((line, i) => (
             <div
               key={i}
-              className={line.startsWith('$ ') ? 'text-primary' : 'whitespace-pre-wrap'}
+              className={
+                line.startsWith('$ ')
+                  ? 'term-line text-primary'
+                  : 'term-line whitespace-pre-wrap'
+              }
             >
               {line}
             </div>
