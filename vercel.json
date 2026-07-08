@@ -1,7 +1,7 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
+      "src": "/",
       "has": [
         {
           "type": "header",
@@ -9,7 +9,10 @@
           "value": ".*(curl|Wget|HTTPie).*"
         }
       ],
-      "destination": "/resume.txt"
+      "dest": "/resume.txt"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
