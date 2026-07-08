@@ -56,14 +56,6 @@ const featuredRole: FeaturedRole = {
       caseStudy: { href: "/writing/meal-photo-to-fhir/", label: "architecture" },
     },
     {
-      title: "PostgreSQL query optimization",
-      metric: "9s → 0.25s",
-      description:
-        "One endpoint, ~75 queries per session — about 98 seconds of cumulative database time. Traced the N+1, rewrote it as set-based SQL (DISTINCT ON, batched GROUP BY counts), and decrypted only the KMS fields the response actually needed.",
-      stack: ["PostgreSQL", "TypeScript", "AWS KMS"],
-      caseStudy: { href: "/writing/9s-to-250ms/", label: "case study" },
-    },
-    {
       title: "Patient identifier (MRN) system",
       description:
         "UUID-based medical record numbers for a healthcare platform: an idempotent batch backfill for existing patients and an event-driven service that assigns IDs at creation, collision-safe under concurrency.",

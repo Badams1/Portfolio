@@ -44,3 +44,6 @@ next-env.d.ts
 INTERVIEW_PREP_GUIDE.*
 TECHNICAL_PROJECT_GUIDE.md
 style.css
+
+# agent worktrees
+.claude/
