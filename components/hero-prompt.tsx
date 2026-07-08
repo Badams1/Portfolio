@@ -18,18 +18,12 @@ export function HeroPrompt() {
   const [input, setInput] = useState('');
   const [lines, setLines] = useState<string[]>([]);
   const [active, setActive] = useState(false);
-  const [showChips, setShowChips] = useState(false);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [ghost, setGhost] = useState('whoami');
   const [booted, setBooted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
-
-  // Touch devices can't be expected to type: offer tappable commands upfront.
-  useEffect(() => {
-    if (window.matchMedia('(hover: none)').matches) setShowChips(true);
-  }, []);
 
   // The cursor only starts blinking after the hero entrance settles (the
   // 1.4s delay lives in CSS — `.cursor-boot`); drop the boot class once
@@ -163,7 +157,7 @@ export function HeroPrompt() {
         <button
           type="button"
           onClick={() => setActive(true)}
-          className="flex items-center font-mono text-sm"
+          className="-mx-3 -my-1.5 flex cursor-text items-center rounded-md border border-transparent px-3 py-1.5 font-mono text-sm transition-colors hover:border-border hover:bg-card/70"
           aria-label="Activate the site terminal"
         >
           <span className="text-primary">$&nbsp;</span>
@@ -185,7 +179,6 @@ export function HeroPrompt() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
-            onFocus={() => setShowChips(true)}
             placeholder="help"
             aria-label="Site terminal — type help for commands"
             autoComplete="off"
@@ -197,19 +190,11 @@ export function HeroPrompt() {
         </div>
       )}
       <p className="mt-1.5 font-mono text-[11px] text-muted-foreground/80">
-        a real prompt — type{' '}
-        <button
-          type="button"
-          className="text-primary hover:underline hover:underline-offset-4"
-          onClick={() => void run('help')}
-        >
-          help
-        </button>
-        , or just scroll
+        a real prompt — click it and type, or pick a command:
       </p>
 
-      {/* Command chips (touch devices, or once focused) */}
-      {showChips && (
+      {/* Command chips — always visible so nobody mistakes this for decoration */}
+      {(
         <div className="mt-3 flex flex-wrap gap-2">
           {CHIPS.map((chip, i) => (
             <button
