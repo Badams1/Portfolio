@@ -259,13 +259,13 @@ export default function Portfolio() {
       <main id="top" className="mx-auto max-w-[46rem] px-6 lg:max-w-[68rem]">
         {/* Hero -------------------------------------------------------------- */}
         <section className="pb-16 pt-16 sm:pb-20 sm:pt-24">
-          <h1 className="font-display text-[clamp(3.2rem,9vw,5.75rem)] leading-[0.98] tracking-tight [text-wrap:balance]">
+          <h1 className="hero-name font-display text-[clamp(3.2rem,9vw,5.75rem)] leading-[0.98] tracking-tight [text-wrap:balance]">
             <span className="mask-word">
               <span style={{ "--d": "0ms" } as React.CSSProperties}>Benjamin</span>
             </span>{" "}
-            <em className="wonk mask-word text-primary">
+            <span className="mask-word text-primary">
               <span style={{ "--d": "110ms" } as React.CSSProperties}>Adams</span>
-            </em>
+            </span>
           </h1>
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start lg:gap-16">
             <div>
@@ -279,7 +279,7 @@ export default function Portfolio() {
               </p>
               <TypedLine
                 className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
-                text="Boston, MA · Northeastern CS ’26 · Open to new-grad roles"
+                text="Boston, MA · Northeastern CS ’26 · Looking for new-grad roles"
                 delay={450}
               />
               <div
@@ -471,7 +471,7 @@ export default function Portfolio() {
               {[
                 ["Currently", "SWE · PlusWellbeing.ai"],
                 ["Education", "Northeastern · B.S. CS"],
-                ["Graduating", "April 2026"],
+                ["Graduated", "April 2026"],
                 ["Based in", "Boston, MA"],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-baseline justify-between gap-4 py-2.5">

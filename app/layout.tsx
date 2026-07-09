@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bdadams.dev'),
   title: "Benjamin Adams — Software Engineer",
   description:
-    "Software engineer at PlusWellbeing.ai, turning LLM output into structured healthcare data. Northeastern CS '26, open to new-grad backend and full-stack roles.",
+    "Software engineer at PlusWellbeing.ai, turning LLM output into structured healthcare data. Northeastern CS '26, looking for new-grad backend and full-stack roles.",
   alternates: { canonical: '/' },
   openGraph: {
     title: "Benjamin Adams — Software Engineer",

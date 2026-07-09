@@ -97,6 +97,13 @@
   font-variation-settings: "WONK" 1, "SOFT" 60;
 }
 
+/* Hero name: a tamer Fraunces cut. Capped optical size + no wonk/soft keeps
+   the caps classic (the display-size J gets a swashy hook otherwise). */
+.hero-name {
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 34, "SOFT" 0, "WONK" 0;
+}
+
 /* ---------------------------------------------------------------------------
    Atmosphere: subtle paper grain over everything.
 --------------------------------------------------------------------------- */
