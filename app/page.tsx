@@ -273,9 +273,7 @@ export default function Portfolio() {
                 className="reveal mt-7 max-w-[40rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
                 style={{ animationDelay: "220ms" }}
               >
-                Software engineer at PlusWellbeing.ai, turning LLM output into
-                structured healthcare data — and making the PostgreSQL underneath
-                it fast.
+                Software Engineer at PlusWellbeing.ai.
               </p>
               <TypedLine
                 className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
