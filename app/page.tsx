@@ -267,35 +267,39 @@ export default function Portfolio() {
               <span style={{ "--d": "110ms" } as React.CSSProperties}>Adams</span>
             </em>
           </h1>
-          <p
-            className="reveal mt-7 max-w-[40rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
-            style={{ animationDelay: "220ms" }}
-          >
-            Software engineer at PlusWellbeing.ai, turning LLM output into
-            structured healthcare data — and making the PostgreSQL underneath
-            it fast.
-          </p>
-          <TypedLine
-            className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
-            text="Boston, MA · Northeastern CS ’26 · Open to new-grad roles"
-            delay={450}
-          />
-          <div
-            className="reveal mt-6 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm"
-            style={{ animationDelay: "560ms" }}
-          >
-            <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
-              GitHub<ExternalArrow />
-            </a>
-            <a className="link-editorial" href={links.linkedin} target="_blank" rel="noopener noreferrer">
-              LinkedIn<ExternalArrow />
-            </a>
-            <a className="link-editorial" href={`mailto:${links.email}`}>
-              {links.email}
-            </a>
-          </div>
-          <div className="reveal mt-10" style={{ animationDelay: "720ms" }}>
-            <HeroPrompt />
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start lg:gap-16">
+            <div>
+              <p
+                className="reveal mt-7 max-w-[40rem] text-lg leading-relaxed text-muted-foreground [text-wrap:pretty] sm:text-xl"
+                style={{ animationDelay: "220ms" }}
+              >
+                Software engineer at PlusWellbeing.ai, turning LLM output into
+                structured healthcare data — and making the PostgreSQL underneath
+                it fast.
+              </p>
+              <TypedLine
+                className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
+                text="Boston, MA · Northeastern CS ’26 · Open to new-grad roles"
+                delay={450}
+              />
+              <div
+                className="reveal mt-6 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm"
+                style={{ animationDelay: "560ms" }}
+              >
+                <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
+                  GitHub<ExternalArrow />
+                </a>
+                <a className="link-editorial" href={links.linkedin} target="_blank" rel="noopener noreferrer">
+                  LinkedIn<ExternalArrow />
+                </a>
+                <a className="link-editorial" href={`mailto:${links.email}`}>
+                  {links.email}
+                </a>
+              </div>
+            </div>
+            <div className="reveal mt-10 lg:mt-8" style={{ animationDelay: "720ms" }}>
+              <HeroPrompt />
+            </div>
           </div>
         </section>
 
@@ -453,41 +457,82 @@ export default function Portfolio() {
         {/* About --------------------------------------------------------------- */}
         <section id="about" className="scroll-mt-20 pb-16">
           <SectionHeading index="03" label="About" />
-          <p className="max-w-[44rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
-            I like systems that are fast, typed, and observable — and the
-            unglamorous work that makes AI features trustworthy:
-            schema-constrained outputs, idempotent backfills, queries that
-            don’t fall over. Northeastern B.S. in Computer Science, April 2026.
-          </p>
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-16">
+            <p className="max-w-[44rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
+              I like systems that are fast, typed, and observable — and the
+              unglamorous work that makes AI features trustworthy:
+              schema-constrained outputs, idempotent backfills, queries that
+              don’t fall over.
+            </p>
+            <dl
+              className="mt-10 divide-y divide-border border-y border-border font-mono text-xs lg:mt-1"
+              data-reveal
+            >
+              {[
+                ["Currently", "SWE · PlusWellbeing.ai"],
+                ["Education", "Northeastern · B.S. CS"],
+                ["Graduating", "April 2026"],
+                ["Based in", "Boston, MA"],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-baseline justify-between gap-4 py-2.5">
+                  <dt className="uppercase tracking-[0.14em] text-muted-foreground">{label}</dt>
+                  <dd className="text-right">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </section>
 
         {/* Contact ------------------------------------------------------------- */}
         <section id="contact" className="scroll-mt-20 pb-16">
           <SectionHeading index="04" label="Contact" />
-          <div data-reveal-stagger>
-            <p className="font-display text-4xl tracking-tight sm:text-5xl">
-              Let’s <em className="wonk text-primary">connect</em>.
-            </p>
-            <p className="mt-4 max-w-[34rem] text-[15px] leading-relaxed text-muted-foreground">
-              Email is the fastest way to reach me — I read every message.
-            </p>
-            <div className="mt-6">
-              <a
-                className="link-editorial inline-block font-display text-xl tracking-tight sm:text-2xl"
-                href={`mailto:${links.email}`}
-              >
-                {links.email}
-              </a>
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start lg:gap-16" data-reveal-stagger>
+            <div>
+              <p className="font-display text-4xl tracking-tight sm:text-5xl">
+                Let’s <em className="wonk text-primary">connect</em>.
+              </p>
+              <p className="mt-4 max-w-[34rem] text-[15px] leading-relaxed text-muted-foreground">
+                Email is the fastest way to reach me — I read every message.
+              </p>
+              <div className="mt-6">
+                <a
+                  className="link-editorial inline-block font-display text-xl tracking-tight sm:text-2xl"
+                  href={`mailto:${links.email}`}
+                >
+                  {links.email}
+                </a>
+              </div>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-sm">
-              <a className="link-editorial" href={links.github} target="_blank" rel="noopener noreferrer">
-                GitHub<ExternalArrow />
+            <div
+              className="mt-10 divide-y divide-border border-y border-border font-mono text-sm lg:mt-2"
+              data-reveal
+            >
+              <a
+                className="group/row flex items-baseline justify-between gap-4 py-3 transition-colors hover:text-primary"
+                href={links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">GitHub</span>
+                <span>Badams1<ExternalArrow /></span>
               </a>
-              <a className="link-editorial" href={links.linkedin} target="_blank" rel="noopener noreferrer">
-                LinkedIn<ExternalArrow />
+              <a
+                className="group/row flex items-baseline justify-between gap-4 py-3 transition-colors hover:text-primary"
+                href={links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">LinkedIn</span>
+                <span>benjamin-adams<ExternalArrow /></span>
               </a>
-              <a className="link-editorial" href={links.resume} target="_blank" rel="noopener noreferrer">
-                Résumé (PDF)
+              <a
+                className="group/row flex items-baseline justify-between gap-4 py-3 transition-colors hover:text-primary"
+                href={links.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Résumé</span>
+                <span>PDF, 1 page<ExternalArrow /></span>
               </a>
             </div>
           </div>
