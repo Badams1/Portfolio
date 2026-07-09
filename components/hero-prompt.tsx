@@ -157,7 +157,7 @@ export function HeroPrompt() {
         <button
           type="button"
           onClick={() => setActive(true)}
-          className="flex w-full max-w-md cursor-text items-center rounded-md border border-border bg-card/70 px-3 py-2 font-mono text-sm transition-colors hover:border-primary/60"
+          className="flex w-full max-w-md cursor-pointer items-center rounded-md border border-border bg-card/70 px-3 py-2 font-mono text-sm transition-colors hover:border-primary/60"
           aria-label="Activate the site terminal — click to type"
         >
           <span className="text-primary">$&nbsp;</span>
@@ -172,7 +172,7 @@ export function HeroPrompt() {
         </button>
       ) : (
         <div
-          className="flex w-full max-w-md cursor-text items-center rounded-md border border-primary/60 bg-card/70 px-3 py-2 font-mono text-sm"
+          className="flex w-full max-w-md cursor-pointer items-center rounded-md border border-primary/60 bg-card/70 px-3 py-2 font-mono text-sm"
           onClick={() => inputRef.current?.focus()}
         >
           <span className="select-none text-primary">$&nbsp;</span>
