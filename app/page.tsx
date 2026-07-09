@@ -101,16 +101,6 @@ const earlierRoles: SummaryRole[] = [
 
 const projects = [
   {
-    title: "MiniShell",
-    tagline: "a Unix shell, in your browser",
-    command: "$ ./minishell",
-    description:
-      "A Unix shell written in C — custom tokenizer and parser, process execution, pipes and redirection in the native build — compiled to WebAssembly so it runs right here on a sandboxed virtual filesystem.",
-    stack: ["C", "WebAssembly", "Emscripten"],
-    primaryLink: { label: "Try the terminal", href: "/terminal/", external: false },
-    githubLink: "https://github.com/Badams1/MiniShell",
-  },
-  {
     title: "LeetGenie",
     tagline: "AI hints for LeetCode",
     command: "$ hint --no-spoilers",
@@ -123,6 +113,16 @@ const projects = [
       external: true,
     },
     githubLink: "https://github.com/Badams1/LeetGenie",
+  },
+  {
+    title: "MiniShell",
+    tagline: "a Unix shell, in your browser",
+    command: "$ ./minishell",
+    description:
+      "A Unix shell written in C — custom tokenizer and parser, process execution, pipes and redirection in the native build — compiled to WebAssembly so it runs right here on a sandboxed virtual filesystem.",
+    stack: ["C", "WebAssembly", "Emscripten"],
+    primaryLink: { label: "Try the terminal", href: "/terminal/", external: false },
+    githubLink: "https://github.com/Badams1/MiniShell",
   },
 ];
 
@@ -460,9 +460,9 @@ export default function Portfolio() {
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-16">
             <p className="max-w-[44rem] text-lg leading-relaxed [text-wrap:pretty]" data-reveal>
               I like systems that are fast, typed, and observable — and the
-              unglamorous work that makes AI features trustworthy:
-              schema-constrained outputs, idempotent backfills, queries that
-              don’t fall over.
+              unglamorous work that makes AI features trustworthy and
+              sustainable at scale: schema-constrained outputs, idempotent
+              backfills, queries that don’t fall over.
             </p>
             <dl
               className="mt-10 divide-y divide-border border-y border-border font-mono text-xs lg:mt-1"
