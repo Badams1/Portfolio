@@ -546,7 +546,6 @@ export default function Portfolio() {
           data-reveal
         >
           <span>© 2026 Benjamin Adams</span>
-          <span className="normal-case">$ curl bdadams.dev — yes, really</span>
           <span>Boston, MA — built with Next.js</span>
         </div>
       </footer>
